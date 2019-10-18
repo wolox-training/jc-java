@@ -1,10 +1,11 @@
 package wolox.training.repositories;
 
 import java.util.List;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
-public interface BookRepository extends Repository {
+public interface BookRepository extends CrudRepository {
 
 	public Book findBookByAuthor(String author);
 
