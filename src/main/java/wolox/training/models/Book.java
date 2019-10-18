@@ -53,6 +53,10 @@ public class Book {
 		this.Isbn = isbn;
 	}
 
+	public long getId() {
+		return this.Id;
+	}
+
 	public String getGenre() {
 		return this.Genre;
 	}
