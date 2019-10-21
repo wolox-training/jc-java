@@ -9,114 +9,114 @@ public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long Id;
+	private long id;
 
-	@Column()
-	private String Genre;
-
-	@Column(nullable = false)
-	private String Author;
+	@Column
+	private String genre;
 
 	@Column(nullable = false)
-	private String Image;
+	private String author;
 
 	@Column(nullable = false)
-	private String Title;
+	private String image;
 
 	@Column(nullable = false)
-	private String Subtitle;
+	private String title;
 
 	@Column(nullable = false)
-	private String Publisher;
+	private String subtitle;
 
 	@Column(nullable = false)
-	private String Year;
+	private String publisher;
 
 	@Column(nullable = false)
-	private Integer Pages;
+	private String year;
 
 	@Column(nullable = false)
-	private String Isbn;
+	private Integer pages;
+
+	@Column(nullable = false)
+	private String isbn;
 
 	public Book() { }
 
-	public Book(String genre, String author, String image, String title, String subtitle,
-			String publisher, String year, Integer pages, String isbn) {
-		this.Genre = genre;
-		this.Author = author;
-		this.Image = image;
-		this.Title = title;
-		this.Subtitle = subtitle;
-		this.Publisher = publisher;
-		this.Year = year;
-		this.Pages = pages;
-		this.Isbn = isbn;
+	public Book(final String genre, final String author, final String image, final String title, final String subtitle,
+			final String publisher, final String year, final Integer pages, final String isbn) {
+		this.genre = genre;
+		this.author = author;
+		this.image = image;
+		this.title = title;
+		this.subtitle = subtitle;
+		this.publisher = publisher;
+		this.year = year;
+		this.pages = pages;
+		this.isbn = isbn;
 	}
 
 	public long getId() {
-		return this.Id;
+		return this.id;
 	}
 
 	public String getGenre() {
-		return this.Genre;
+		return this.genre;
 	}
 	public void setGenre(String genre) {
-		this.Genre = genre;
+		this.genre = genre;
 	}
 
 	public String getAuthor() {
-		return this.Author;
+		return this.author;
 	}
 	public void setAuthor(String author) {
-		this.Author = author;
+		this.author = author;
 	}
 
 	public String getImage() {
-		return this.Image;
+		return this.image;
 	}
 	public void setImage(String image) {
-		this.Image = image;
+		this.image = image;
 	}
 
 	public String getTitle() {
-		return this.Title;
+		return this.title;
 	}
 	public void setTitle(String title) {
-		this.Title = title;
+		this.title = title;
 	}
 
 	public String getSubtitle() {
-		return this.Subtitle;
+		return this.subtitle;
 	}
 	public void setSubtitle(String subtitle) {
-		this.Subtitle = subtitle;
+		this.subtitle = subtitle;
 	}
 
 	public String getPublisher() {
-		return this.Publisher;
+		return this.publisher;
 	}
 	public void setPublisher(String publisher) {
-		this.Publisher = publisher;
+		this.publisher = publisher;
 	}
 
 	public String getYear() {
-		return this.Year;
+		return this.year;
 	}
 	public void setYear(String year) {
-		this.Year = year;
+		this.year = year;
 	}
 
 	public Integer getPages() {
-		return this.Pages;
+		return this.pages;
 	}
 	public void setPages(Integer pages) {
-		this.Pages = pages;
+		this.pages = pages;
 	}
 
 	public String getIsbn() {
-		return this.Isbn;
+		return this.isbn;
 	}
 	public void setIsbn(String isbn) {
-		this.Isbn = isbn;
+		this.isbn = isbn;
 	}
 }

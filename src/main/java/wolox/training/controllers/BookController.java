@@ -35,35 +35,25 @@ public class BookController {
 	}
 
 	@GetMapping("/title/{bookTitle}")
-	public List<Book> findByTitle(@PathVariable String bookTitle) {
+	public Iterable<Book> findByTitle(@PathVariable String bookTitle) {
 		return bookRepository.findBookByTitle(bookTitle);
 	}
 
 	@GetMapping("/{id}")
 	public Book findOne(@PathVariable Long id) {
-		try {
-			return bookRepository.findBookById(id);
-		}
-		catch (BookNotFoundException ex) {
-			throw new BookNotFoundException("Book Not Found", ex);
-		}
+		return bookRepository.findBookById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Book create(@RequestBody Book book) {
+		bookRepository.findBookById(book.getId()).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		return bookRepository.save(book);
 	}
 
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		try {
-			bookRepository.findBookById(id);
-			bookRepository.deleteBookById(id);
-		}
-		catch (BookNotFoundException ex) {
-			throw new BookNotFoundException("Book Not Found", ex);
-		}
+	public void delete(@PathVariable Long id) throws Throwable {
+		bookRepository.deleteBookById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 	}
 
 	@PutMapping("/{id}")
@@ -71,13 +61,7 @@ public class BookController {
 		if (book.getId() != id) {
 			throw new BookIdMismatchException("Book id mismatch", new Exception());
 		}
-		try {
-			bookRepository.findBookById(id);
-			return bookRepository.save(book);
-		}
-		catch (BookNotFoundException ex) {
-			throw new BookNotFoundException("Book Not Found", ex);
-		}
+		return bookRepository.save(book);
 	}
 
 }
