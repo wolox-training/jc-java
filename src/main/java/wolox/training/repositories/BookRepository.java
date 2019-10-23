@@ -1,12 +1,11 @@
 package wolox.training.repositories;
 
-
-import ch.qos.logback.core.pattern.parser.OptionTokenizer;
-import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
-public interface BookRepository extends CrudRepository<Book, Integer> {
+@Repository
+public interface BookRepository extends CrudRepository<Book, Long> {
 
-	public Optional<Book> findBookByAuthor(String author);
+	public Book findByAuthor(String author);
 }
