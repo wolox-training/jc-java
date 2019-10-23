@@ -12,11 +12,11 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
 	public Iterable<Book> findAll();
 
-	public Optional<Iterable<Book>> findByTitle(String title);
+	public Iterable<Book> findAllByTitle(String title);
 
 	public Optional<Book> findById(Long id);
 
 	public Book save(Book book);
 
-	public void deleteById(Long id);
+	public void delete(Book book);
 }

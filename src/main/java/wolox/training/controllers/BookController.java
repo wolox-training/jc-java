@@ -39,8 +39,8 @@ public class BookController {
 	}
 
 	@GetMapping("/title/{bookTitle}")
-	public Iterable<Book> findByTitle(@PathVariable String bookTitle) {
-		return bookRepository.findByTitle(bookTitle).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+	public Iterable<Book> findAllByTitle(@PathVariable String bookTitle) {
+		return bookRepository.findAllByTitle(bookTitle);
 	}
 
 	@GetMapping("/{id}")
@@ -58,7 +58,7 @@ public class BookController {
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) throws Throwable {
 		Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
-		bookRepository.deleteById(book.getId());
+		bookRepository.delete(book);
 	}
 
 	@PutMapping("/{id}")
