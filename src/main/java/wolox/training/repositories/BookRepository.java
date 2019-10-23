@@ -2,20 +2,21 @@ package wolox.training.repositories;
 
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
-public interface BookRepository extends CrudRepository<Book, Integer> {
+@Repository
+public interface BookRepository extends CrudRepository<Book, Long> {
 
-	public Optional<Book> findBookByAuthor(String author);
+	public Optional<Book> findByAuthor(String author);
 
 	public Iterable<Book> findAll();
 
-	public Iterable<Book> findBookByTitle(String title);
+	public Optional<Iterable<Book>> findByTitle(String title);
 
-	public Optional<Book> findBookById(long id);
+	public Optional<Book> findById(Long id);
 
 	public Book save(Book book);
 
-	public Optional deleteBookById(long id);
-
+	public void deleteById(Long id);
 }

@@ -1,6 +1,5 @@
 package wolox.training.controllers;
-import java.util.List;
-import net.bytebuddy.implementation.bytecode.Throw;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -30,30 +29,36 @@ public class BookController {
 	private BookRepository bookRepository;
 
 	@GetMapping
-	public Iterable findAll() {
+	public String index() {
+		return "index";
+	}
+
+	@GetMapping("/list")
+	public Iterable<Book> findAll() {
 		return bookRepository.findAll();
 	}
 
 	@GetMapping("/title/{bookTitle}")
 	public Iterable<Book> findByTitle(@PathVariable String bookTitle) {
-		return bookRepository.findBookByTitle(bookTitle);
+		return bookRepository.findByTitle(bookTitle).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 	}
 
 	@GetMapping("/{id}")
 	public Book findOne(@PathVariable Long id) {
-		return bookRepository.findBookById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+		return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Book create(@RequestBody Book book) {
-		bookRepository.findBookById(book.getId()).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+		bookRepository.findById(book.getId()).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		return bookRepository.save(book);
 	}
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) throws Throwable {
-		bookRepository.deleteBookById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+		Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+		bookRepository.deleteById(book.getId());
 	}
 
 	@PutMapping("/{id}")
@@ -63,5 +68,4 @@ public class BookController {
 		}
 		return bookRepository.save(book);
 	}
-
 }
