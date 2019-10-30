@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
@@ -174,6 +175,7 @@ public class Users {
 		return this.userName;
 	}
 	public void setUserName(String userName) {
+		Preconditions.checkNotNull(userName, "Username cannot be null");
 		this.userName = userName;
 	}
 
@@ -181,6 +183,7 @@ public class Users {
 		return this.localDate;
 	}
 	public void setLocalDate(LocalDate localDate) {
+		Preconditions.checkNotNull(localDate, "Local Date cannot be null");
 		this.localDate = localDate;
 	}
 
@@ -189,6 +192,7 @@ public class Users {
 	}
 
 	public void setBooks(Book book) {
+		Preconditions.checkNotNull(book, "The book to add cannot be null");
 		if (this.books.contains(book))
 			throw new BookAlreadyOwnedException("Book Already Owned", new Exception());
 		this.books.add(book);

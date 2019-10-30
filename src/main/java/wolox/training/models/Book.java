@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Collection;
@@ -210,6 +211,7 @@ public class Book {
 		return this.author;
 	}
 	public void setAuthor(String author) {
+		Preconditions.checkNotNull(author, "Author cannot be null");
 		this.author = author;
 	}
 
@@ -217,6 +219,7 @@ public class Book {
 		return this.image;
 	}
 	public void setImage(String image) {
+		Preconditions.checkNotNull(image, "Image cannot be null");
 		this.image = image;
 	}
 
@@ -224,6 +227,7 @@ public class Book {
 		return this.title;
 	}
 	public void setTitle(String title) {
+		Preconditions.checkNotNull(title, "Title cannot be null");
 		this.title = title;
 	}
 
@@ -231,6 +235,7 @@ public class Book {
 		return this.subtitle;
 	}
 	public void setSubtitle(String subtitle) {
+		Preconditions.checkNotNull(subtitle, "Subtitle cannot be null");
 		this.subtitle = subtitle;
 	}
 
@@ -238,6 +243,7 @@ public class Book {
 		return this.publisher;
 	}
 	public void setPublisher(String publisher) {
+		Preconditions.checkNotNull(publisher, "Publisher cannot be null");
 		this.publisher = publisher;
 	}
 
@@ -245,6 +251,7 @@ public class Book {
 		return this.year;
 	}
 	public void setYear(String year) {
+		Preconditions.checkNotNull(year, "Year cannot be null");
 		this.year = year;
 	}
 
@@ -252,6 +259,8 @@ public class Book {
 		return this.pages;
 	}
 	public void setPages(Integer pages) {
+		Preconditions.checkNotNull(pages);
+		Preconditions.checkArgument(pages < 0, "Quantity of pages cannot be negative or zero");
 		this.pages = pages;
 	}
 
@@ -259,6 +268,7 @@ public class Book {
 		return this.isbn;
 	}
 	public void setIsbn(String isbn) {
+		Preconditions.checkNotNull(isbn);
 		this.isbn = isbn;
 	}
 
@@ -266,6 +276,7 @@ public class Book {
 		return (List<Users>) Collections.unmodifiableCollection(this.users);
 	}
 	public void setUsers(Users user) {
+		Preconditions.checkNotNull(user, "The user to add cannot be null");
 		this.users.add(user);
 	}
 }
