@@ -1,5 +1,7 @@
 package wolox.training.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,8 +20,10 @@ import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @Controller
+@Api
 public class BookController {
 	@GetMapping("/greeting")
+	@ApiOperation(value = "Test Hello World")
 	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
 		model.addAttribute("name", name);
 		return "greeting";
@@ -30,7 +34,7 @@ public class BookController {
 
 	@GetMapping
 	public String index() {
-		return "index";
+			return "index";
 	}
 
 	@GetMapping("/list")
