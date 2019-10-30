@@ -8,7 +8,7 @@ import wolox.training.models.Users;
 @Repository
 public interface UsersRepository extends CrudRepository<Users, Long> {
 
-	public Optional<Users> findByName(String name);
+	public Iterable<Users> findAllByName(String name);
 
 	public Iterable<Users> findAll();
 
