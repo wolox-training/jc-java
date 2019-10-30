@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import wolox.training.exceptions.BookIdMismatchException;
@@ -21,6 +22,7 @@ import wolox.training.repositories.BookRepository;
 
 @Controller
 @Api
+@RequestMapping("/bookApi/")
 public class BookController {
 
 	@GetMapping("/greeting")
@@ -33,7 +35,7 @@ public class BookController {
 	@Autowired
 	private BookRepository bookRepository;
 
-	@GetMapping
+	@GetMapping("/")
 	@ApiOperation(value = "Index page")
 	public String index() {
 			return "index";
@@ -57,7 +59,7 @@ public class BookController {
 		return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 	}
 
-	@PostMapping
+	@PostMapping("/")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Create book")
 	public Book create(@RequestBody Book book) {
