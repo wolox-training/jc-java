@@ -259,7 +259,7 @@ public class Book {
 		return this.pages;
 	}
 	public void setPages(Integer pages) {
-		Preconditions.checkNotNull(pages);
+		Preconditions.checkNotNull(pages, "Pages cannot be null");
 		Preconditions.checkArgument(pages < 0, "Quantity of pages cannot be negative or zero");
 		this.pages = pages;
 	}
