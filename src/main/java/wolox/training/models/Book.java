@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
+@ApiModel
 public class Book {
 
 	@Id
@@ -20,33 +23,43 @@ public class Book {
 	private long id;
 
 	@Column
+	@ApiModelProperty
 	private String genre;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String author;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String image;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String title;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String subtitle;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String publisher;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String year;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private Integer pages;
 
 	@Column(nullable = false)
+	@ApiModelProperty
 	private String isbn;
 
 	@ManyToMany(mappedBy = "books")
+	@ApiModelProperty
 	private List<Users> users;
 
 	public Book() {

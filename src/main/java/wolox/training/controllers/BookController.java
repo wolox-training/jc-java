@@ -22,6 +22,7 @@ import wolox.training.repositories.BookRepository;
 @Controller
 @Api
 public class BookController {
+
 	@GetMapping("/greeting")
 	@ApiOperation(value = "Test Hello World")
 	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -33,39 +34,46 @@ public class BookController {
 	private BookRepository bookRepository;
 
 	@GetMapping
+	@ApiOperation(value = "Index page")
 	public String index() {
 			return "index";
 	}
 
 	@GetMapping("/list")
+	@ApiOperation(value = "Get all books")
 	public Iterable<Book> findAll() {
 		return bookRepository.findAll();
 	}
 
 	@GetMapping("/title/{bookTitle}")
+	@ApiOperation(value = "Find all books with a particular title")
 	public Iterable<Book> findAllByTitle(@PathVariable String bookTitle) {
 		return bookRepository.findAllByTitle(bookTitle);
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Find one book for its id")
 	public Book findOne(@PathVariable Long id) {
 		return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(value = "Create book")
 	public Book create(@RequestBody Book book) {
 		bookRepository.findById(book.getId()).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		return bookRepository.save(book);
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Delete book")
 	public void delete(@PathVariable Long id) throws Throwable {
 		Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		bookRepository.delete(book);
 	}
 
 	@PutMapping("/{id}")
+	@ApiOperation(value = "Update book")
 	public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
 		if (book.getId() != id) {
 			throw new BookIdMismatchException("Book id mismatch", new Exception());
