@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -49,127 +50,8 @@ public class Book {
 	@ManyToMany(mappedBy = "books")
 	private List<Users> users;
 
-	public Book() {
-		this.users = new List<Users>() {
-			@Override
-			public int size() {
-				return 0;
-			}
-
-			@Override
-			public boolean isEmpty() {
-				return false;
-			}
-
-			@Override
-			public boolean contains(Object o) {
-				return false;
-			}
-
-			@Override
-			public Iterator<Users> iterator() {
-				return null;
-			}
-
-			@Override
-			public Object[] toArray() {
-				return new Object[0];
-			}
-
-			@Override
-			public <T> T[] toArray(T[] ts) {
-				return null;
-			}
-
-			@Override
-			public boolean add(Users users) {
-				return false;
-			}
-
-			@Override
-			public boolean remove(Object o) {
-				return false;
-			}
-
-			@Override
-			public boolean containsAll(Collection<?> collection) {
-				return false;
-			}
-
-			@Override
-			public boolean addAll(Collection<? extends Users> collection) {
-				return false;
-			}
-
-			@Override
-			public boolean addAll(int i, Collection<? extends Users> collection) {
-				return false;
-			}
-
-			@Override
-			public boolean removeAll(Collection<?> collection) {
-				return false;
-			}
-
-			@Override
-			public boolean retainAll(Collection<?> collection) {
-				return false;
-			}
-
-			@Override
-			public void clear() {
-
-			}
-
-			@Override
-			public Users get(int i) {
-				return null;
-			}
-
-			@Override
-			public Users set(int i, Users users) {
-				return null;
-			}
-
-			@Override
-			public void add(int i, Users users) {
-
-			}
-
-			@Override
-			public Users remove(int i) {
-				return null;
-			}
-
-			@Override
-			public int indexOf(Object o) {
-				return 0;
-			}
-
-			@Override
-			public int lastIndexOf(Object o) {
-				return 0;
-			}
-
-			@Override
-			public ListIterator<Users> listIterator() {
-				return null;
-			}
-
-			@Override
-			public ListIterator<Users> listIterator(int i) {
-				return null;
-			}
-
-			@Override
-			public List<Users> subList(int i, int i1) {
-				return null;
-			}
-		};
-	}
-
 	public Book(final String genre, final String author, final String image, final String title, final String subtitle,
-			final String publisher, final String year, final Integer pages, final String isbn, final List<Users> users) {
+			final String publisher, final String year, final Integer pages, final String isbn) {
 		this.genre = genre;
 		this.author = author;
 		this.image = image;
@@ -179,7 +61,7 @@ public class Book {
 		this.year = year;
 		this.pages = pages;
 		this.isbn = isbn;
-		this.users = users;
+		this.users = new ArrayList();
 	}
 
 	public long getId() {
