@@ -10,11 +10,4 @@ public interface UsersRepository extends CrudRepository<Users, Long> {
 
 	public Iterable<Users> findAllByName(String name);
 
-	public Iterable<Users> findAll();
-
-	public Optional<Users> findById(Long id);
-
-	public Users save(Users user);
-
-	public void delete(Users user);
 }
