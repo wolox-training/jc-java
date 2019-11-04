@@ -51,7 +51,8 @@ public class BookController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Book create(@RequestBody Book book) {
-		bookRepository.findById(book.getId()).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+		if(bookRepository.findById(book.getId()) != null)
+			throw new BookIdMismatchException("Book already created", new Exception());
 		return bookRepository.save(book);
 	}
 
