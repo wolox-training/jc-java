@@ -139,7 +139,7 @@ public class Book {
 	}
 	public void setPages(Integer pages) {
 		Preconditions.checkNotNull(pages, "Pages cannot be null");
-		Preconditions.checkArgument(pages < 0, "Quantity of pages cannot be negative or zero");
+		Preconditions.checkArgument(pages > 0, "Quantity of pages cannot be negative or zero");
 		this.pages = pages;
 	}
 
@@ -147,12 +147,12 @@ public class Book {
 		return this.isbn;
 	}
 	public void setIsbn(String isbn) {
-		Preconditions.checkNotNull(isbn);
+		Preconditions.checkNotNull(isbn, "Isbn cannot be null");
 		this.isbn = isbn;
 	}
 
 	public List<Users> getUsers() {
-		return (List<Users>) Collections.unmodifiableCollection(this.users);
+		return (List<Users>) Collections.unmodifiableList(this.users);
 	}
 	public void setUsers(Users user) {
 		Preconditions.checkNotNull(user, "The user to add cannot be null");
