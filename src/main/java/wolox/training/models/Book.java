@@ -61,6 +61,8 @@ public class Book {
 	@ApiModelProperty
 	private List<Users> users;
 
+	public Book() { }
+
 	public Book(final String genre, final String author, final String image, final String title, final String subtitle,
 			final String publisher, final String year, final Integer pages, final String isbn) {
 		this.genre = genre;

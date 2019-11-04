@@ -39,6 +39,8 @@ public class Users {
 					referencedColumnName = "id"))
 	private List<Book> books;
 
+	public Users() { }
+
 	public Users(final String userName, final String name, final LocalDate localDate) {
 		this.userName = userName;
 		this.name = name;
