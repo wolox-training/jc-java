@@ -36,12 +36,6 @@ public class BookController {
 	private BookRepository bookRepository;
 
 	@GetMapping("/")
-	@ApiOperation(value = "Index page")
-	public String index() {
-			return "index";
-	}
-
-	@GetMapping("/list")
 	@ApiOperation(value = "Get all books")
 	public Iterable<Book> findAll() {
 		return bookRepository.findAll();

@@ -24,12 +24,7 @@ public class UsersController {
 	@Autowired
 	private BookRepository bookRepository;
 
-	@GetMapping
-	public String index() {
-		return "index";
-	}
-
-	@GetMapping("/list")
+	@GetMapping("/")
 	public Iterable<Users> findAll() {
 		return usersRepository.findAll();
 	}
