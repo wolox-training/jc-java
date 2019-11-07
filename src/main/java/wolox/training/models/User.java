@@ -1,6 +1,14 @@
 package wolox.training.models;
 
+import static org.checkerframework.checker.units.UnitsTools.mm;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.google.common.base.Preconditions;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,17 +37,20 @@ public class User {
 	private String name;
 
 	@Column(nullable = false)
-	private LocalDate localDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private LocalDate birthDate;
 
 	@OneToMany(mappedBy = "book")
 	private List<Book> books;
 
 	public  User() { }
 
-	public User(final String userName, final String name) {
+	public User(final String userName, final String name, final LocalDate birthDate) {
 		this.userName = userName;
 		this.name = name;
-		this.localDate = LocalDate.now();
+		this.birthDate = birthDate;
 		this.books = new ArrayList();
 	}
 
@@ -55,12 +66,12 @@ public class User {
 		this.userName = userName;
 	}
 
-	public LocalDate getLocalDate() {
-		return this.localDate;
+	public LocalDate getBirthDate() {
+		return this.birthDate;
 	}
-	public void setLocalDate(LocalDate localDate) {
-		Preconditions.checkNotNull(localDate, "Local Date cannot be null");
-		this.localDate = localDate;
+	public void setBirthDate(LocalDate birthDate) {
+		Preconditions.checkNotNull(birthDate, "Birth Date cannot be null");
+		this.birthDate = birthDate;
 	}
 
 	public List<Book> getBooks() {
