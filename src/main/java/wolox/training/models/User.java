@@ -13,10 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 
 @Entity
-public class Users {
+@Table(name = "Users")
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -37,7 +39,9 @@ public class Users {
 					referencedColumnName = "id"))
 	private List<Book> books;
 
-	public Users(final String userName, final String name, final LocalDate localDate) {
+	public  User() { }
+
+	public User(final String userName, final String name, final LocalDate localDate) {
 		this.userName = userName;
 		this.name = name;
 		this.localDate = localDate;
