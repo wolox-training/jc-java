@@ -66,6 +66,14 @@ public class User {
 		this.userName = userName;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+	public void setName(String name) {
+		Preconditions.checkNotNull(name, "Name cannot be null");
+		this.name = name;
+	}
+
 	public LocalDate getBirthDate() {
 		return this.birthDate;
 	}
