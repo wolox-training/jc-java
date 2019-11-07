@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.exceptions.UserAlreadyExistException;
 import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UsersNotFoundException;
 import wolox.training.models.Book;
@@ -47,8 +48,8 @@ public class UserController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@RequestBody User user) {
-		if(usersRepository.findById(user.getId()) != null)
-			throw new UserIdMismatchException("User already created", new Exception());
+		if(usersRepository.findById(user.getId()) == null)
+			throw new UserAlreadyExistException("User already exist", new Exception());
 		return usersRepository.save(user);
 	}
 
