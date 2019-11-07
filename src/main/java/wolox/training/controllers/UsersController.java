@@ -47,7 +47,8 @@ public class UsersController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Users create(@RequestBody Users user) {
-		usersRepository.findById(user.getId()).orElseThrow(() -> new UserIdMismatchException("User  Id Already Created", new Exception()));
+		if(usersRepository.findById(user.getId()) != null)
+			throw new UserIdMismatchException("User already created", new Exception());
 		return usersRepository.save(user);
 	}
 
