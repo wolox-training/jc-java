@@ -48,7 +48,9 @@ public class Book {
 	private String isbn;
 
 	@ManyToMany(mappedBy = "books")
-	private List<Users> users;
+	private List<User> users;
+
+	public Book() { }
 
 	public Book(final String genre, final String author, final String image, final String title, final String subtitle,
 			final String publisher, final String year, final Integer pages, final String isbn) {
@@ -131,10 +133,10 @@ public class Book {
 		this.isbn = isbn;
 	}
 
-	public List<Users> getUsers() {
-		return (List<Users>) Collections.unmodifiableCollection(this.users);
+	public List<User> getUsers() {
+		return (List<User>) Collections.unmodifiableCollection(this.users);
 	}
-	public void setUsers(Users user) {
+	public void setUsers(User user) {
 		this.users.add(user);
 	}
 }
