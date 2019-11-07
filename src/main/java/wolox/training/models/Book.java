@@ -1,10 +1,17 @@
 package wolox.training.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Book {
@@ -40,6 +47,9 @@ public class Book {
 	@Column(nullable = false)
 	private String isbn;
 
+	@ManyToMany(mappedBy = "books")
+	private List<User> users;
+
 	public Book() { }
 
 	public Book(final String genre, final String author, final String image, final String title, final String subtitle,
@@ -53,6 +63,7 @@ public class Book {
 		this.year = year;
 		this.pages = pages;
 		this.isbn = isbn;
+		this.users = new ArrayList();
 	}
 
 	public long getId() {
@@ -120,5 +131,12 @@ public class Book {
 	}
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
+	}
+
+	public List<User> getUsers() {
+		return (List<User>) Collections.unmodifiableCollection(this.users);
+	}
+	public void setUsers(User user) {
+		this.users.add(user);
 	}
 }
