@@ -36,10 +36,10 @@ public class User {
 
 	public  User() { }
 
-	public User(final String userName, final String name, final LocalDate localDate) {
+	public User(final String userName, final String name) {
 		this.userName = userName;
 		this.name = name;
-		this.localDate = localDate;
+		this.localDate = LocalDate.now();
 		this.books = new ArrayList();
 	}
 
