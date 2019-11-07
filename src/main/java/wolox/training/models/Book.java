@@ -3,15 +3,13 @@ package wolox.training.models;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @ApiModel
@@ -57,9 +55,9 @@ public class Book {
 	@ApiModelProperty
 	private String isbn;
 
-	@ManyToMany(mappedBy = "books")
-	@ApiModelProperty
-	private List<Users> users;
+	@ManyToOne
+	@JoinColumn(name="book_id")
+	private Book book;
 
 	public Book() { }
 
@@ -74,7 +72,6 @@ public class Book {
 		this.year = year;
 		this.pages = pages;
 		this.isbn = isbn;
-		this.users = new ArrayList();
 	}
 
 	public long getId() {
@@ -151,13 +148,5 @@ public class Book {
 	public void setIsbn(String isbn) {
 		Preconditions.checkNotNull(isbn, "Isbn cannot be null");
 		this.isbn = isbn;
-	}
-
-	public List<Users> getUsers() {
-		return (List<Users>) Collections.unmodifiableList(this.users);
-	}
-	public void setUsers(Users user) {
-		Preconditions.checkNotNull(user, "The user to add cannot be null");
-		this.users.add(user);
 	}
 }
