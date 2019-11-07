@@ -1,15 +1,20 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookNotOwnedException;
 
 @Entity
 @ApiModel
@@ -55,9 +60,10 @@ public class Book {
 	@ApiModelProperty
 	private String isbn;
 
-	@ManyToOne
+	@ManyToMany
+	@JsonIgnore
 	@JoinColumn(name="book_id")
-	private Book book;
+	private List<User> users= new ArrayList<>();
 
 	public Book() { }
 
@@ -148,5 +154,18 @@ public class Book {
 	public void setIsbn(String isbn) {
 		Preconditions.checkNotNull(isbn, "Isbn cannot be null");
 		this.isbn = isbn;
+	}
+
+	public void addUsers(User user) {
+		Preconditions.checkNotNull(user, "The user to add cannot be null");
+		if (this.users.contains(user))
+			throw new BookAlreadyOwnedException("User Already Owned this Book", new Exception());
+		this.users.add(user);
+	}
+
+	public void removeBook(User user) {
+		if (!this.users.contains(user))
+			throw new BookNotOwnedException("Book Not Owned By This User", new Exception());
+		this.users.remove(user);
 	}
 }

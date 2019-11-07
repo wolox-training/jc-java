@@ -69,17 +69,19 @@ public class UserController {
 		}
 		return usersRepository.save(user);
 	}
-	@PutMapping("/{id}/{bookId}")
-	protected void addBooks(@PathVariable Long userId, @PathVariable Long bookId) {
+	@PutMapping("/{userId}/{bookId}")
+	public void addBooks(@PathVariable Long userId, @PathVariable Long bookId) {
 		Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		User user = usersRepository.findById(userId).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
-		user.setBooks(book);
+		user.addBook(book);
+		usersRepository.save(user);
 	}
 
-	@DeleteMapping("/{id}/{bookId}")
-	protected void removeBook(@PathVariable Long userId, @PathVariable Long bookId) {
+	@DeleteMapping("/{userId}/{bookId}")
+	public void removeBook(@PathVariable Long userId, @PathVariable Long bookId) {
 		Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		User user = usersRepository.findById(userId).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
 		user.removeBook(book);
+		usersRepository.save(user);
 	}
 }
