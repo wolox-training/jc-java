@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import wolox.training.exceptions.BookAlreadyExistException;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
@@ -51,8 +52,8 @@ public class BookController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Book create(@RequestBody Book book) {
-		if(bookRepository.findById(book.getId()) != null)
-			throw new BookIdMismatchException("Book already created", new Exception());
+		if(bookRepository.findById(book.getId()) == null)
+			throw new BookAlreadyExistException("Book already exist", new Exception());
 		return bookRepository.save(book);
 	}
 
