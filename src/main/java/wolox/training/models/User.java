@@ -106,4 +106,8 @@ public class User {
 		this.books.remove(book);
 	}
 
+	public boolean equals(Object obj) {
+		return (this == obj);
+	}
+
 }
