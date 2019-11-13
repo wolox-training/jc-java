@@ -1,6 +1,7 @@
 package wolox.training.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,4 +71,31 @@ public class UserControllerTests {
 				+ "\"publisher\":\"Viking Press\",\"year\":\"1986\",\"pages\":1502,\"isbn\":\"45788665\"}]}"
 			));
 	}
+
+	@Test
+	public void whenCreateUser_thenUserIsCreated() throws Exception {
+		String json = "{\"username\": \"jose\", \"name\": \"Jose Luis Casanova\", "
+				+ "\"birthday\": \"1995-04-27\"}";
+		mvc.perform(post("/userApi/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+				.andExpect(status().isCreated());
+	}
+
+	@Test
+	public void whenCreateUserWithNullValues_thenUserIsNotCreated() throws Exception {
+		mvc.perform((post("api/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"username\": \"jose\", \"name\": \"Jose Luis Casanova\"}")))
+				.andExpect(status().isNotFound());
+		mvc.perform((post("api/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"name\": \"Jose Luis Casanova\", \"birthday\": \"1995-04-27\"}")))
+				.andExpect(status().isNotFound());
+		mvc.perform((post("api/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"username\": \"jose\", \"birthday\": \"1990-04-27\"}")))
+				.andExpect(status().isNotFound());
+	}
+
 }
