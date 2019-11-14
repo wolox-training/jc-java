@@ -5,6 +5,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 
 import java.time.LocalDate;
 import java.util.Optional;
+import javax.persistence.PersistenceException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,33 @@ public class UserTest {
 		user.setUserName(null);
 		entityManager.persist(user);
 		entityManager.flush();
+	}
+
+	@Test(expected = PersistenceException.class)
+	public void whenCreateUserWithNullValues_thenUserIsNotPersisted() {
+		User userNull = new User();
+		entityManager.persist(userNull);
+		entityManager.flush();
+	}
+
+	@Test
+	public void whenUpdateUser_thenUserIsUpdated() {
+		entityManager.persist(user);
+		entityManager.flush();
+		user.setName("Jose Casanova");
+		entityManager.persist(user);
+		entityManager.flush();
+		User userUpdated = userRepository.findById(user.getId()).get();
+		assert ("Jose Casanova").equals(userUpdated.getName());
+	}
+
+	@Test
+	public void whenDeleteUser_thenUserIsDeleted() {
+		entityManager.persist(user);
+		entityManager.flush();
+		entityManager.remove(user);
+		Optional<User> searchUser = userRepository.findById(user.getId());
+		assert (!searchUser.isPresent());
 	}
 
 	@Test
