@@ -28,4 +28,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     return handleExceptionInternal(ex, ex.getLocalizedMessage(),
         new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
   }
+
+  @ExceptionHandler({ UserAuthenticationFailException.class })
+  protected ResponseEntity<Object> handleUnauthorized(
+          Exception ex, WebRequest request) {
+    return handleExceptionInternal(ex, "User authentication fail",
+            new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+  }
 }
