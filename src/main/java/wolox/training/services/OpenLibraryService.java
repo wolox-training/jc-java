@@ -85,6 +85,8 @@ public class OpenLibraryService {
 		// Another option would be to take only the first element of the list.
 		if (values.has("authors"))
 			book.setAuthor(convertListToString(values.get("authors")));
+		if (values.has("cover"))
+			book.setImage(values.get("cover").get("large").asText());
 		return book;
 	}
 	private static String convertListToString(JsonNode jsonNode) {
