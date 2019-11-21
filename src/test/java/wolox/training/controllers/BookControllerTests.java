@@ -105,7 +105,6 @@ public class BookControllerTests {
 
 	@Test
 	public void whenDeleteNonExistingBook_thenBookIsNotFound() throws Exception {
-		Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 		mvc.perform(delete("/bookApi/3"))
 				.andExpect(status().isNotFound());
 	}

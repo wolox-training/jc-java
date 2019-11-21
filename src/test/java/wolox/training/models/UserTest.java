@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 import java.time.LocalDate;
@@ -61,7 +62,7 @@ public class UserTest {
 		entityManager.persist(user);
 		entityManager.flush();
 		User userUpdated = userRepository.findById(user.getId()).get();
-		assert ("Jose Casanova").equals(userUpdated.getName());
+		assertEquals("Jose Casanova", userUpdated.getName());
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class UserTest {
 		entityManager.flush();
 		entityManager.remove(user);
 		Optional<User> searchUser = userRepository.findById(user.getId());
-		assert (!searchUser.isPresent());
+		assertFalse(searchUser.isPresent());
 	}
 
 	@Test
