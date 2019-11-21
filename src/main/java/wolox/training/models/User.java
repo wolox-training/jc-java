@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookNotOwnedException;
 
 @Entity
 @Table(name = "Users")
@@ -74,6 +75,12 @@ public class User {
 		if (this.books.contains(book))
 			throw new BookAlreadyOwnedException("Book Already Owned", new Exception());
 		this.books.add(book);
+	}
+
+	public void removeBook(Book book) {
+		if (!this.books.contains(book))
+			throw new BookNotOwnedException("Book Not Owned By This User", new Exception());
+		this.books.remove(book);
 	}
 
 }

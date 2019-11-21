@@ -3,11 +3,11 @@ package wolox.training.repositories;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import wolox.training.models.Users;
+import wolox.training.models.User;
 
 @Repository
-public interface UsersRepository extends CrudRepository<Users, Long> {
+public interface UsersRepository extends CrudRepository<User, Long> {
 
-	public Optional<Users> findByName(String name);
+	public Iterable<User> findAllByName(String name);
 
 }
