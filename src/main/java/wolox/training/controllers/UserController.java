@@ -22,18 +22,13 @@ import wolox.training.repositories.UsersRepository;
 
 @RestController
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 
 	@Autowired
 	private UsersRepository usersRepository;
 
 	@Autowired
 	private BookRepository bookRepository;
-
-	@GetMapping
-	public String index() {
-		return "index";
-	}
 
 	@GetMapping("/")
 	public Iterable<User> findAll() {
