@@ -1,8 +1,12 @@
 package wolox.training.controllers;
 
 import io.swagger.annotations.Api;
+import java.security.Principal;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,5 +85,15 @@ public class UserController {
 		User user = usersRepository.findById(userId).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
 		user.removeBook(book);
 		usersRepository.save(user);
+	}
+
+	@GetMapping("/me")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<User> me(Principal principal) {
+		String name = principal.getName();
+		if (name.isEmpty())
+			return new ResponseEntity("{ message: \"There is no authenticated user. \"}", HttpStatus.NOT_FOUND);
+		User user = usersRepository.findByName(principal.getName()).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }
