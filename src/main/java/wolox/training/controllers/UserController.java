@@ -2,6 +2,7 @@ package wolox.training.controllers;
 
 import io.swagger.annotations.Api;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +96,11 @@ public class UserController {
 			return new ResponseEntity("{ message: \"There is no authenticated user. \"}", HttpStatus.NOT_FOUND);
 		User user = usersRepository.findByName(principal.getName()).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	@GetMapping("/find/{startDate}/{endDate}/{name}")
+	public User find(@PathVariable String startDate, @PathVariable String endDate, @PathVariable String name) {
+		return usersRepository.findFirstBybirthDateBetweenAndNameContainingIgnoreCase(LocalDate.parse(startDate), LocalDate.parse(endDate), name)
+				.orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
 	}
 }
