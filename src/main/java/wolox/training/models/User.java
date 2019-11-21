@@ -1,5 +1,14 @@
 package wolox.training.models;
 
+import static org.checkerframework.checker.units.UnitsTools.mm;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.google.common.base.Preconditions;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotOwnedException;
@@ -31,22 +41,24 @@ public class User {
 	private String name;
 
 	@Column(nullable = false)
-	private LocalDate localDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private LocalDate birthDate;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "book_users",
+	@JoinTable(name = "book_user",
 			joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name = "users_id",
+			inverseJoinColumns = @JoinColumn(name = "user_id",
 					referencedColumnName = "id"))
-	private List<Book> books;
+	private List<Book> books = new ArrayList<Book>();;
 
 	public  User() { }
 
-	public User(final String userName, final String name, final LocalDate localDate) {
+	public User(final String userName, final String name, final LocalDate birthDate) {
 		this.userName = userName;
 		this.name = name;
-		this.localDate = localDate;
-		this.books = new ArrayList();
+		this.birthDate = birthDate;
 	}
 
 	public long getId() {
@@ -57,21 +69,32 @@ public class User {
 		return this.userName;
 	}
 	public void setUserName(String userName) {
+		Preconditions.checkNotNull(userName, "Username cannot be null");
 		this.userName = userName;
 	}
 
-	public LocalDate getLocalDate() {
-		return this.localDate;
+	public String getName() {
+		return this.name;
 	}
-	public void setLocalDate(LocalDate localDate) {
-		this.localDate = localDate;
+	public void setName(String name) {
+		Preconditions.checkNotNull(name, "Name cannot be null");
+		this.name = name;
+	}
+
+	public LocalDate getBirthDate() {
+		return this.birthDate;
+	}
+	public void setBirthDate(LocalDate birthDate) {
+		Preconditions.checkNotNull(birthDate, "Birth Date cannot be null");
+		this.birthDate = birthDate;
 	}
 
 	public List<Book> getBooks() {
-		return (List<Book>) Collections.unmodifiableCollection(this.books);
+		return (List<Book>) Collections.unmodifiableList(this.books);
 	}
 
-	public void setBooks(Book book) {
+	public void addBook(Book book) {
+		Preconditions.checkNotNull(book, "The book to add cannot be null");
 		if (this.books.contains(book))
 			throw new BookAlreadyOwnedException("Book Already Owned", new Exception());
 		this.books.add(book);

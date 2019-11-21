@@ -1,5 +1,6 @@
 package wolox.training.controllers;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +22,8 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UsersRepository;
 
 @RestController
-@RequestMapping("/users")
+@Api
+@RequestMapping("/userApi/")
 public class UserController {
 
 	@Autowired
@@ -47,6 +49,7 @@ public class UserController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@GetMapping("/")
 	public User create(@RequestBody User user) {
 		if(usersRepository.findById(user.getId()) == null)
 			throw new UserAlreadyExistException("User already exist", new Exception());
@@ -66,17 +69,19 @@ public class UserController {
 		}
 		return usersRepository.save(user);
 	}
-	@PutMapping("/{id}/{bookId}")
-	protected void addBooks(@PathVariable Long userId, @PathVariable Long bookId) {
+	@PutMapping("/{userId}/{bookId}")
+	public void addBooks(@PathVariable Long userId, @PathVariable Long bookId) {
 		Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		User user = usersRepository.findById(userId).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
-		user.setBooks(book);
+		user.addBook(book);
+		usersRepository.save(user);
 	}
 
-	@DeleteMapping("/{id}/{bookId}")
-	protected void removeBook(@PathVariable Long userId, @PathVariable Long bookId) {
+	@DeleteMapping("/{userId}/{bookId}")
+	public void removeBook(@PathVariable Long userId, @PathVariable Long bookId) {
 		Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
 		User user = usersRepository.findById(userId).orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
 		user.removeBook(book);
+		usersRepository.save(user);
 	}
 }
