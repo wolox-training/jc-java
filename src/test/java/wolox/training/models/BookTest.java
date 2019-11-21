@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 import java.util.Optional;
@@ -58,7 +60,7 @@ public class BookTest {
 		entityManager.persist(bookCreated);
 		entityManager.flush();
 		Book bookFound = bookRepository.findById(bookCreated.getId()).get();
-		assert (bookCreated.equals(bookFound));
+		assertEquals(bookCreated, bookFound);
 	}
 
 	@Test(expected = PersistenceException.class)
@@ -75,7 +77,7 @@ public class BookTest {
 		book.setGenre("Horror");
 		entityManager.merge(book);
 		Book bookFound = bookRepository.findById(book.getId()).get();
-		assert ("Horror").equals(bookFound.getGenre());
+		assertEquals("Horror", bookFound.getGenre());
 	}
 
 	@Test
@@ -84,7 +86,7 @@ public class BookTest {
 		entityManager.flush();
 		entityManager.remove(book);
 		Optional<Book> bookFound = bookRepository.findById(book.getId());
-		assert (!bookFound.isPresent());
+		assertFalse(bookFound.isPresent());
 	}
 
 }

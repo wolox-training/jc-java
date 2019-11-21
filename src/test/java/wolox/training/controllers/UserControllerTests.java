@@ -160,4 +160,12 @@ public class UserControllerTests {
 				.andExpect(status().isNotFound());
 	}
 
+	@Test
+	public void whenAddBookToUser_thenBookIsAdded() throws Exception {
+		Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(oneTestUser));
+		Mockito.when(booksRepository.findById(1L)).thenReturn(Optional.of(oneTestBook));
+		mvc.perform(put("/userApi/1/2"))
+				.andExpect(status().isNotFound());
+	}
+
 }
