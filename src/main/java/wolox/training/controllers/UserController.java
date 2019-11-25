@@ -51,8 +51,6 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@GetMapping("/")
 	public User create(@RequestBody User user) {
-		if(usersRepository.findById(user.getId()) == null)
-			throw new UserAlreadyExistException("User already exist", new Exception());
 		return usersRepository.save(user);
 	}
 

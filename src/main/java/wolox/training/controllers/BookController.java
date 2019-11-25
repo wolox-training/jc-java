@@ -2,6 +2,7 @@ package wolox.training.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -58,8 +59,6 @@ public class BookController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Create book")
 	public Book create(@RequestBody Book book) {
-		if(bookRepository.findById(book.getId()) == null)
-			throw new BookAlreadyExistException("Book already exist", new Exception());
 		return bookRepository.save(book);
 	}
 
