@@ -15,6 +15,6 @@ public interface UsersRepository extends CrudRepository<User, Long> {
 
 	public Optional<User> findByName(String name);
 
-	@Query("select u from User u where (u.name is null or u.name like %:name%) and (u.birthday is null or (u.birthday >= :startDate and u.birthday <= :endDate))")
+	@Query("select u from User u where (u.name is null or u.name like %:name%) and (u.birthDate is null or (u.birthDate >= :startDate and u.birthDate <= :endDate))")
 	public Optional<User> findFirstBybirthDateBetweenAndNameContainingIgnoreCase(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("name") String name);
 }
