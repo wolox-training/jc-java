@@ -12,4 +12,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
 	public Iterable<Book> findAllByTitle(String title);
 
+	public Optional<Book> findFirstByIsbn(String isbn);
+
 }

@@ -4,7 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import wolox.training.exceptions.BookAlreadyExistException;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
+import wolox.training.services.OpenLibraryService;
 
 @RestController
 @Api
@@ -76,5 +78,28 @@ public class BookController {
 			throw new BookIdMismatchException("Book id mismatch", new Exception());
 		}
 		return bookRepository.save(book);
+	}
+
+	@GetMapping("/findByIsbn/{isbn}")
+	@ApiOperation(value = "Find one book for its isbn")
+	public ResponseEntity<Book> findByIsbn(@PathVariable String isbn) {
+		Optional<Book> book = bookRepository.findFirstByIsbn(isbn);
+		if (book.isEmpty()) {
+			try {
+				book = Optional.of(OpenLibraryService.bookInfo(isbn));
+			}
+			catch (Exception e) {
+				throw new BookNotFoundException("Book Not Found", new Exception());
+			}
+			try {
+				Book bookSaved = bookRepository.save(book.get());
+				return new ResponseEntity(book, HttpStatus.CREATED);
+			}
+			catch (DataIntegrityViolationException e) {
+				return new ResponseEntity("{ message: \"The book is present in OpenLibrary service, but some not nullable fields are missing (are null).\"}",
+							HttpStatus.BAD_REQUEST);
+			}
+		}
+		return new ResponseEntity(book, HttpStatus.OK);
 	}
 }
