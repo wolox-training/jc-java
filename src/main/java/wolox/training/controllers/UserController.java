@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.exceptions.BookNotFoundException;
@@ -103,9 +105,9 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@GetMapping("/find/{startDate}/{endDate}/{name}")
-	public User find(@PathVariable String startDate, @PathVariable String endDate, @PathVariable String name) {
-		return usersRepository.findFirstBybirthDateBetweenAndNameContainingIgnoreCase(LocalDate.parse(startDate), LocalDate.parse(endDate), name)
+	@GetMapping("/find")
+	public User find(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate, @RequestParam(name="name", defaultValue = "") String name) {
+		return usersRepository.findFirstBybirthDateBetweenAndNameContainingIgnoreCase(startDate, endDate, name)
 				.orElseThrow(() -> new UsersNotFoundException("User Not Found", new Exception()));
 	}
 }

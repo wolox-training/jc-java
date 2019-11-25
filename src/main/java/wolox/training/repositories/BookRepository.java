@@ -1,7 +1,9 @@
 package wolox.training.repositories;
 
 import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
@@ -14,6 +16,9 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
 	public Optional<Book> findFirstByIsbn(String isbn);
 
-	public Optional<Book> findFirstByPublisherAndGenreAndYear(String publisher, String genre, String year);
+	@Query("select b from Book b where (b.genre = :genre or b.genre is null) and "
+			+ "(b.publisher = :publisher or b.publisher is null) and "
+			+ "(b.year = :year or b.year is null)")
+	public Optional<Book> findFirstByPublisherAndGenreAndYear(@Param("publisher") String publisher, @Param("genre") String genre, @Param("year")String year);
 
 }
