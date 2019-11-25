@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,10 +47,10 @@ public class UserController {
 	private PasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	@GetMapping("getAll")
-	public List<User> getAll(@RequestParam(required = false, defaultValue = "") String name,
+	public Page<User> getAll(@RequestParam(required = false, defaultValue = "") String name,
 			@RequestParam(required = false, defaultValue = "") String userName,
-			@RequestParam(required = false, defaultValue = "") LocalDate birthDate) {
-		return usersRepository.getAll(name, userName, birthDate);
+			@RequestParam(required = false, defaultValue = "") LocalDate birthDate, Pageable pageable) {
+		return usersRepository.getAll(name, userName, birthDate, pageable);
 	}
 
 	@GetMapping("/")
@@ -57,8 +59,8 @@ public class UserController {
 	}
 
 	@GetMapping("/name/{usersName}")
-	public Iterable<User> findAllByName(@PathVariable String name) {
-		return usersRepository.findAllByName(name);
+	public Page<User> findAllByName(@PathVariable String name, Pageable pageable) {
+		return usersRepository.findAllByName(name, pageable);
 	}
 
 	@GetMapping("/{id}")
