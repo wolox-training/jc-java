@@ -3,6 +3,7 @@ package wolox.training.controllers;
 import io.swagger.annotations.Api;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,13 @@ public class UserController {
 	private BookRepository bookRepository;
 
 	private PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+	@GetMapping("getAll")
+	public List<User> getAll(@RequestParam(required = false, defaultValue = "") String name,
+			@RequestParam(required = false, defaultValue = "") String userName,
+			@RequestParam(required = false, defaultValue = "") LocalDate birthDate) {
+		return usersRepository.getAll(name, userName, birthDate);
+	}
 
 	@GetMapping("/")
 	public Iterable<User> findAll() {
