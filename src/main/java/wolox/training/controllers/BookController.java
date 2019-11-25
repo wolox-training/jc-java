@@ -102,4 +102,10 @@ public class BookController {
 		}
 		return new ResponseEntity(book, HttpStatus.OK);
 	}
+
+	@GetMapping("/findBookByPublisherAndGenreAndYear/{publisher}/{genre}/{year}")
+	@ApiOperation(value = "Find book by Publisher, Genre and Year")
+	public Book findBookByPublisherAndGenreAndYear(@PathVariable String publisher, @PathVariable String genre, @PathVariable String year) {
+		return bookRepository.findFirstByPublisherAndGenreAndYear(publisher, genre, year).orElseThrow(() -> new BookNotFoundException("Book Not Found", new Exception()));
+	}
 }
