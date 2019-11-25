@@ -2,6 +2,8 @@ package wolox.training.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,6 +36,20 @@ public class BookController {
 	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
 		model.addAttribute("name", name);
 		return "greeting";
+	}
+
+	@GetMapping("getAll")
+	@ApiOperation(value = "Get All books with filters")
+	public List<Book> getAll(@RequestParam(required = false, defaultValue = "") String genre,
+			@RequestParam(required = false, defaultValue = "") String author,
+			@RequestParam(required = false, defaultValue = "") String image,
+			@RequestParam(required = false, defaultValue = "") String title,
+			@RequestParam(required = false, defaultValue = "") String subtitle,
+			@RequestParam(required = false, defaultValue = "") String publisher,
+			@RequestParam(required = false, defaultValue = "") String year,
+			@RequestParam(required = false, defaultValue = "") String isbn,
+			@RequestParam(required = false, defaultValue = "0") int pages) {
+		return bookRepository.getAll(genre, author, image, title, subtitle, publisher, year, isbn, pages);
 	}
 
 	@Autowired
