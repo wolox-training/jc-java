@@ -10,4 +10,5 @@ public interface UsersRepository extends CrudRepository<User, Long> {
 
 	public Iterable<User> findAllByName(String name);
 
+	public Optional<User> findByName(String name);
 }

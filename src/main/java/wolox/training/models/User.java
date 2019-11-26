@@ -3,6 +3,7 @@ package wolox.training.models;
 import static org.checkerframework.checker.units.UnitsTools.mm;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -51,7 +52,10 @@ public class User {
 			joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id",
 					referencedColumnName = "id"))
-	private List<Book> books = new ArrayList<Book>();;
+	private List<Book> books = new ArrayList<Book>();
+
+	@Column(nullable = false)
+	private String password;
 
 	public  User() { }
 
@@ -104,6 +108,15 @@ public class User {
 		if (!this.books.contains(book))
 			throw new BookNotOwnedException("Book Not Owned By This User", new Exception());
 		this.books.remove(book);
+	}
+
+	@JsonIgnore
+	public String getPassword() {
+		return this.password;
+	}
+	public void setPassword(String password) {
+		Preconditions.checkArgument(password != null && !password.isEmpty());
+		this.password = password;
 	}
 
 }
