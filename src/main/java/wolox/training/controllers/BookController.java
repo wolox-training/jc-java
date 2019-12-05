@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -40,7 +42,7 @@ public class BookController {
 
 	@GetMapping("getAll")
 	@ApiOperation(value = "Get All books with filters")
-	public List<Book> getAll(@RequestParam(required = false, defaultValue = "") String genre,
+	public Page<Book> getAll(@RequestParam(required = false, defaultValue = "") String genre,
 			@RequestParam(required = false, defaultValue = "") String author,
 			@RequestParam(required = false, defaultValue = "") String image,
 			@RequestParam(required = false, defaultValue = "") String title,
@@ -48,8 +50,8 @@ public class BookController {
 			@RequestParam(required = false, defaultValue = "") String publisher,
 			@RequestParam(required = false, defaultValue = "") String year,
 			@RequestParam(required = false, defaultValue = "") String isbn,
-			@RequestParam(required = false, defaultValue = "0") int pages) {
-		return bookRepository.getAll(genre, author, image, title, subtitle, publisher, year, isbn, pages);
+			@RequestParam(required = false, defaultValue = "0") int pages, Pageable pageable) {
+		return bookRepository.getAll(genre, author, image, title, subtitle, publisher, year, isbn, pages, pageable);
 	}
 
 	@Autowired
@@ -63,8 +65,8 @@ public class BookController {
 
 	@GetMapping("/title/{bookTitle}")
 	@ApiOperation(value = "Find all books with a particular title")
-	public Iterable<Book> findAllByTitle(@PathVariable String bookTitle) {
-		return bookRepository.findAllByTitle(bookTitle);
+	public Page<Book> findAllByTitle(@PathVariable String bookTitle, Pageable pageable) {
+		return bookRepository.findAllByTitle(bookTitle, pageable);
 	}
 
 	@GetMapping("/{id}")
